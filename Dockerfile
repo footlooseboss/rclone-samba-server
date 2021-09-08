@@ -1,4 +1,4 @@
-FROM erichough/nfs-server
+FROM dperson/samba
 RUN apk add unzip supervisor fuse
 COPY supervisord.conf /etc/supervisord.conf
 RUN wget https://downloads.rclone.org/v1.56.0/rclone-v1.56.0-linux-amd64.zip && \
