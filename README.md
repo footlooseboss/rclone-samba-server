@@ -16,7 +16,7 @@ directory_name_encryption = true
 ```
 
 ```
-docker run -v /path/to/rclone/confdir:/rclone/config -p 0.0.0.0:139:139 -p 0.0.0.0:445:445 registry.gitlab.com/encircle360-oss/rclone-samba-server:latest
+docker run -v /path/to/rclone/confdir:/rclone/config -e SHARE="remote;/mnt/remote" -p 0.0.0.0:139:139 -p 0.0.0.0:445:445 registry.gitlab.com/encircle360-oss/rclone-samba-server:latest
 ```
 
 Afterwards just use the Samba client or tool you want to connect to the host you binded. In case of the example it's the host which runs docker (`10.10.10.10`).
@@ -26,10 +26,21 @@ mkdir -p /mnt/test
 sudo mount -t cifs //10.10.10.10/<share> /mnt/test
 ```
 
+### Complete Mac OS example (public share without credentials)
+```
+docker run -e NMBD=true -e SHARE="public;/mnt/remote" -p 139:139 -p 445:445 -p 137:137/udp -p 138:138/udp --cap-add SYS_ADMIN --device /dev/fuse -d --name samba  --restart always -v /path/to/rclone/confdir:/rclone/config registry.gitlab.com/encircle360-oss/rclone-samba-server:latest
+```
+
+```
+sudo mkdir -p /Volumes/smbshare
+sudo mount_smbfs -N //guest@localhost/public /Volumes/smbshare
+```
+
 ## Customization
 You can customize many settings in the underlying samba-server. For example it's also possible to restrict access to shares to some created users.
 
 You can find all customization options and environment variables [here](https://github.com/dperson/samba).
+Please be aware that mostly **only the environment variables** work with this image.
 
 ## Contribute
 Feel free to contribute to this open source project. Just fork, change and create a pull or merge request to this repository.
