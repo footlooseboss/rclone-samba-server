@@ -5,7 +5,7 @@ COPY rclone-mount.sh /rclone-mount.sh
 RUN chmod +x /rclone-mount.sh
 RUN wget https://downloads.rclone.org/v1.57.0/rclone-v1.57.0-linux-amd64.zip && \
     unzip rclone*.zip && cd rclone-v* && cp rclone /usr/bin/ && \
-    chown root:root /usr/bin/rclone && chmod 755 /usr/bin/rclone && rm -R /rclone*
+    chown root:root /usr/bin/rclone && chmod 755 /usr/bin/rclone && rm -R /rclone-v*
 RUN mkdir -p /mnt/remote
 VOLUME ["/rclone/config", "/rclone/cache"]
 
